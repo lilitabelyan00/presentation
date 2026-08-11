@@ -1,8 +1,3 @@
-# presentation
-
 ---
-title: "DataOps"
-# subtitle: "My Visuan"
+title: "CITI BIKE Jersey City 2025"
 author: "Lilit Abelyan"
-date: last-modified
-image_path: "img/"
