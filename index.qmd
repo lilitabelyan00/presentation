@@ -1,7 +1,7 @@
 ---
 title: "DataOps"
 # subtitle: "My Visuan"
-author: "Karen Hovhannisyan"
+author: "Lilit Abelyan"
 date: last-modified
 image_path: "img/"
 format:
