@@ -174,4 +174,6 @@ To optimize visual interactivity, raw live database connections are converted in
 
 The final dashboard provides actionable insights through interactive visualizations.
 
+## Contacts
+
 [linkedin](https://www.linkedin.com/in/lilit-abelyan-14a3b7279/)
