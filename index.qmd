@@ -27,31 +27,151 @@ format:
     
 ---
 
-## Objective {.smaller}
 
-- Transform data into a **strategic banking asset**  
-- Eliminate **data silos** and enable **integrated decision-making**  
-- Build a **scalable, governed, and AI-ready organization**
+## Project Overview {.smaller}
 
-## The Core Problem: Data Silos {.smaller}
+This presentation presents the end-to-end data analytics workflow for the **Citi Bike Jersey City 2025** dataset.
 
-- **Fragmented systems across:**
-  - Core banking  
-  - CRM  
-  - Risk  
-  - Marketing  
-  - Other Sources
-- **Consequences:**
-  - Inconsistent KPIs  
-  - Slow decision-making  
-  - Poor customer experience  
-  - Limited AI capability 
-  - Missing Single Source of Truth 
+The workflow spans 8 comprehensive steps:
 
-## Data Silos in Banking {.smaller}
+1. Data Acquisition from Web APIs & External Data Sources
 
-Show less
+2. Raw Data Collection & Storage Architecture
+
+3. Data Ingestion, Cleaning, and Preparation
+
+4. Exploratory Data Analysis & Feature Engineering in Python
+
+5. Database Storage & PostGIS Integration
+
+6. Tableau Desktop Connection & Data Modeling
+
+7. Performance Optimization via Tableau Hyper Extracts
+
+8. Interactive Tableau Dashboard Prototype & Visual Insights
+
+## Step 1: Download Data from the Web {.smaller}
+
+Automated python scripts gather data using standard client libraries (`requests`, `pandas`, API clients).
+
+* **Citi Bike Data (ZIP Files)**: Monthly Jersey City ride data for 2025 (e.g., `202501.zip`, `202502.zip`, ..., `202512.zip`).
+  * Source: Amazon S3 Bucket (`https://s3.amazonaws.com/tripdata/index.html`).
+
+* **Weather API (Open-Meteo)**: Daily historical weather metrics.
+  * Parameters: Temperature (max, min, mean), Precipitation, Rain, Snowfall, Wind speed.
+  * Source: Open-Meteo API (`https://open-meteo.com`).
+
+* **Neighborhood GeoJSON**: Spatial polygon boundaries for Jersey City.
+  * File: `Jersey City Neighborhoods (GeoJSON)`.
+  * Source: Hudson County / Open Data platform.
 
 
+## Step 2: Data Sources {.smaller}
+
+Raw datasets are stored and staged in their native formats prior to preprocessing.
+
+* **Citi Bike ZIP Files**:
+  * 12 monthly ZIP archives containing raw CSV formatted ride logs.
+
+* **Weather API Response**:
+  * Raw JSON response structures transformed directly into tabular data frames.
+
+* **Neighborhood GeoJSON**:
+  * GeoJSON file storing spatial polygon vector boundaries for geographical mapping.
+
+
+## Step 3: Preparing the Data {.smaller}
+
+Raw data undergoes systematic validation, transformation, and standardization.
+
+1. **Extract**: Unzip monthly archives and load CSV files into pandas DataFrames.
+
+2. **Clean**: Rename columns, standardize data types, remove duplicates.
+
+3. **Parse**: Parse timestamp formats (`started_at`, `ended_at`).
+
+4. **Validate**: Perform spatial validation on coordinates (latitude/longitude bounds).
+
+5. **Handle Missing**: Impute or filter missing records and null attributes.
+
+6. **Standardize**: Standardize variable units and categorical values across months.
+
+**Output**: Cleaned DataFrames (`citibike_df`, `weather_df`, `neighborhoods_gdf`).
+
+---
+
+## Step 4: Analysis with Python {.smaller}
+
+Exploratory analysis and feature engineering build a rich, dashboard-ready dataset.
+
+* **Exploratory Data Analysis (EDA)**: Summary statistics, variable distributions, null check.
+
+* **Trend Analysis**: Daily, hourly, and monthly ride volume and seasonality patterns.
+
+* **User & Bike Insights**: Rider status breakdown (Member vs Casual) and bike type distribution.
+
+* **Spatial Analysis**: Top pickup/dropoff stations and neighborhood spatial joins.
+
+* **Weather Impact**: Correlation between ride counts and temperature, rain, or snowfall.
+
+* **Feature Engineering**: Trip duration, distance calculations, temporal flags, weather indicators.
+
+**Output**: Dashboard-ready wide-table dataset.
+
+---
+
+## Step 5: Create New Database (Citibike) {.smaller}
+
+Data is structured in a PostgreSQL database container enhanced with PostGIS extensions.
+
+* **Database Stack**: PostgreSQL running inside a Docker Container with PostGIS enabled.
+
+* **Core Tables**:
+  * `jersey_city` (rides data)
+  * `jersey_weather` (daily weather metrics)
+  * `jersey_city_neighborhoods` (geometry polygons)
+  * `jc_2025_stations` (station geometry points)
+
+* **Materialized View**:
+  * `mv_tableau_citibike_dashboard`: Pre-joined wide dataset optimized for analytical queries.
+
+---
+
+## Step 6: Connect Tableau to Database {.smaller}
+
+Tableau Desktop connects directly to the PostgreSQL database layer for dynamic reporting.
+
+* **Connection Details**:
+  * **Host**: `localhost`
+  * **Port**: `5432`
+  * **Database**: `citibike`
+  * **Schema**: `public`
+
+* **Data Source**:
+  * Direct query against `mv_tableau_citibike_dashboard` materialized view.
+
+* **Benefits**:
+  * Centralized data storage with reduced query times and maintainable business logic.
+
+---
+
+## Step 7: Build Extract {.smaller}
+
+To optimize visual interactivity, raw live database connections are converted into Hyper extracts.
+
+* **Extract Target**: Materialized view `mv_tableau_citibike_dashboard`.
+
+* **Output File**: `citibike_dashboard.hyper` file format.
+
+* **Key Advantages**:
+  * Significantly faster visual rendering performance.
+  * Optimized aggregation engine designed specifically for Tableau VizQL engine.
+  * Ability to perform offline analysis with smaller overall data footprint on disk.
+
+---
+
+## Step 8: Visualizing with Tableau (Dashboard) {.smaller}
+
+The final dashboard provides actionable insights through interactive visualizations.
 
 [linkedin](https://www.linkedin.com/in/lilit-abelyan-14a3b7279/)
