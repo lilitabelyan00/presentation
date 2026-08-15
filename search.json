@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "index.html#project-overview",
+    "href": "index.html#project-overview",
+    "title": "CITI BIKE Jersey City 2025",
+    "section": "Project Overview",
+    "text": "Project Overview\nThis presentation presents the end-to-end data analytics workflow for the Citi Bike Jersey City 2025 dataset.\nThe workflow spans 8 comprehensive steps:\n\nData Acquisition from Web APIs & External Data Sources\nRaw Data Collection & Storage Architecture\nData Ingestion, Cleaning, and Preparation\nExploratory Data Analysis & Feature Engineering in Python\nDatabase Storage & PostGIS Integration\nTableau Desktop Connection & Data Modeling\nPerformance Optimization via Tableau Hyper Extracts\nInteractive Tableau Dashboard Prototype & Visual Insights"
+  },
+  {
+    "objectID": "index.html#step-1-download-data-from-the-web",
+    "href": "index.html#step-1-download-data-from-the-web",
+    "title": "CITI BIKE Jersey City 2025",
+    "section": "Step 1: Download Data from the Web",
+    "text": "Step 1: Download Data from the Web\nAutomated python scripts gather data using standard client libraries (requests, pandas, API clients).\n\nCiti Bike Data (ZIP Files): Monthly Jersey City ride data for 2025 (e.g., 202501.zip, 202502.zip, …, 202512.zip).\n\nSource: Amazon S3 Bucket (https://s3.amazonaws.com/tripdata/index.html).\n\nWeather API (Open-Meteo): Daily historical weather metrics.\n\nParameters: Temperature (max, min, mean), Precipitation, Rain, Snowfall, Wind speed.\nSource: Open-Meteo API (https://open-meteo.com).\n\nNeighborhood GeoJSON: Spatial polygon boundaries for Jersey City.\n\nFile: Jersey City Neighborhoods (GeoJSON).\nSource: Hudson County / Open Data platform."
+  },
+  {
+    "objectID": "index.html#step-2-data-sources",
+    "href": "index.html#step-2-data-sources",
+    "title": "CITI BIKE Jersey City 2025",
+    "section": "Step 2: Data Sources",
+    "text": "Step 2: Data Sources\nRaw datasets are stored and staged in their native formats prior to preprocessing.\n\nCiti Bike ZIP Files:\n\n12 monthly ZIP archives containing raw CSV formatted ride logs.\n\nWeather API Response:\n\nRaw JSON response structures transformed directly into tabular data frames.\n\nNeighborhood GeoJSON:\n\nGeoJSON file storing spatial polygon vector boundaries for geographical mapping."
+  },
+  {
+    "objectID": "index.html#step-3-preparing-the-data",
+    "href": "index.html#step-3-preparing-the-data",
+    "title": "CITI BIKE Jersey City 2025",
+    "section": "Step 3: Preparing the Data",
+    "text": "Step 3: Preparing the Data\nRaw data undergoes systematic validation, transformation, and standardization.\n\nExtract: Unzip monthly archives and load CSV files into pandas DataFrames.\nClean: Rename columns, standardize data types, remove duplicates.\nParse: Parse timestamp formats (started_at, ended_at).\nValidate: Perform spatial validation on coordinates (latitude/longitude bounds).\nHandle Missing: Impute or filter missing records and null attributes.\nStandardize: Standardize variable units and categorical values across months.\n\nOutput: Cleaned DataFrames (citibike_df, weather_df, neighborhoods_gdf)."
+  },
+  {
+    "objectID": "index.html#step-4-analysis-with-python",
+    "href": "index.html#step-4-analysis-with-python",
+    "title": "CITI BIKE Jersey City 2025",
+    "section": "Step 4: Analysis with Python",
+    "text": "Step 4: Analysis with Python\nExploratory analysis and feature engineering build a rich, dashboard-ready dataset.\n\nExploratory Data Analysis (EDA): Summary statistics, variable distributions, null check.\nTrend Analysis: Daily, hourly, and monthly ride volume and seasonality patterns.\nUser & Bike Insights: Rider status breakdown (Member vs Casual) and bike type distribution.\nSpatial Analysis: Top pickup/dropoff stations and neighborhood spatial joins.\nWeather Impact: Correlation between ride counts and temperature, rain, or snowfall.\nFeature Engineering: Trip duration, distance calculations, temporal flags, weather indicators.\n\nOutput: Dashboard-ready wide-table dataset."
+  },
+  {
+    "objectID": "index.html#step-5-create-new-database-citibike",
+    "href": "index.html#step-5-create-new-database-citibike",
+    "title": "CITI BIKE Jersey City 2025",
+    "section": "Step 5: Create New Database (Citibike)",
+    "text": "Step 5: Create New Database (Citibike)\nData is structured in a PostgreSQL database container enhanced with PostGIS extensions.\n\nDatabase Stack: PostgreSQL running inside a Docker Container with PostGIS enabled.\nCore Tables:\n\njersey_city (rides data)\njersey_weather (daily weather metrics)\njersey_city_neighborhoods (geometry polygons)\njc_2025_stations (station geometry points)\n\nMaterialized View:\n\nmv_tableau_citibike_dashboard: Pre-joined wide dataset optimized for analytical queries."
+  },
+  {
+    "objectID": "index.html#step-6-connect-tableau-to-database",
+    "href": "index.html#step-6-connect-tableau-to-database",
+    "title": "CITI BIKE Jersey City 2025",
+    "section": "Step 6: Connect Tableau to Database",
+    "text": "Step 6: Connect Tableau to Database\nTableau Desktop connects directly to the PostgreSQL database layer for dynamic reporting.\n\nConnection Details:\n\nHost: localhost\nPort: 5432\nDatabase: citibike\nSchema: public\n\nData Source:\n\nDirect query against mv_tableau_citibike_dashboard materialized view.\n\nBenefits:\n\nCentralized data storage with reduced query times and maintainable business logic."
+  },
+  {
+    "objectID": "index.html#step-7-build-extract",
+    "href": "index.html#step-7-build-extract",
+    "title": "CITI BIKE Jersey City 2025",
+    "section": "Step 7: Build Extract",
+    "text": "Step 7: Build Extract\nTo optimize visual interactivity, raw live database connections are converted into Hyper extracts.\n\nExtract Target: Materialized view mv_tableau_citibike_dashboard.\nOutput File: citibike_dashboard.hyper file format.\nKey Advantages:\n\nSignificantly faster visual rendering performance.\nOptimized aggregation engine designed specifically for Tableau VizQL engine.\nAbility to perform offline analysis with smaller overall data footprint on disk."
+  },
+  {
+    "objectID": "index.html#step-8-visualizing-with-tableau-dashboard",
+    "href": "index.html#step-8-visualizing-with-tableau-dashboard",
+    "title": "CITI BIKE Jersey City 2025",
+    "section": "Step 8: Visualizing with Tableau (Dashboard)",
+    "text": "Step 8: Visualizing with Tableau (Dashboard)\nThe final dashboard provides actionable insights through interactive visualizations."
+  },
+  {
+    "objectID": "index.html#contacts",
+    "href": "index.html#contacts",
+    "title": "CITI BIKE Jersey City 2025",
+    "section": "Contacts",
+    "text": "Contacts\nlinkedin"
+  }
+]
